@@ -18,7 +18,7 @@ const Notifications = () => {
         </div>
         <Bell size={20} />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[100%] max-w-[400px]">
+      <DropdownMenuContent className="w-full max-w-[400px]">
         <div className="flex justify-between items-center gap-4 mb-2 p-2">
           <h3 className="text-lg font-semibold">Notifications</h3>
           <button className="text-sm text-muted-foreground">
