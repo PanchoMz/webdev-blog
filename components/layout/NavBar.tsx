@@ -16,13 +16,13 @@ const NavBar = () => {
             <div className="font-bold text-xl">WEBDEV.blog</div>
           </div>
           <SearchInput />
-          <div className="flex gap-5 sm:gap-8 items-center">
+          <div className="flex gap-5 sm:gap-8 items-center justify-center">
             <ThemeToggle />
             <Notifications />
             <UserButton />
             <>
-            <Link href="/login">Login</Link>
-            <Link href="/register">Register</Link>
+              <Link href="/login">Login</Link>
+              <Link href="/register">Register</Link>
             </>
           </div>
         </div>

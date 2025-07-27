@@ -3,9 +3,12 @@ import { Input } from "../ui/input";
 
 const SearchInput = () => {
   return (
-    <div className="relative hidden sm:block" >
+    <div className="relative hidden sm:block w-full">
       <Search className="absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground" />
-      <Input placeholder="Search..." className="pl-10 bg-primary/10" />
+      <Input
+        placeholder="Search..."
+        className="pl-10 bg-primary/10 w-[200px]"
+      />
     </div>
   );
 };
