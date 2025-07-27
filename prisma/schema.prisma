@@ -1,0 +1,50 @@
+// Database configuration - using PostgreSQL
+datasource db {
+  provider  = "postgresql"
+  url  	    = env("DATABASE_URL")
+}
+
+// Prisma client generator configuration
+generator client {
+  provider = "prisma-client-js"
+}
+ 
+// User model - represents application users
+model User {
+  id            String          @id @default(cuid())
+  name          String?
+  email         String          @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]       // One-to-many relationship with Account
+
+  // Timestamps for tracking creation and updates
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+ 
+// Account model - handles OAuth provider connections
+// Links users to their social media or OAuth accounts
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+ 
+  // Timestamps for tracking creation and updates
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  // Relationship to User model
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  // Composite primary key for provider and account ID
+  @@id([provider, providerAccountId])
+}

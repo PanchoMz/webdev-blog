@@ -6,8 +6,8 @@ import {
   UseFormRegister,
 } from "react-hook-form";
 
-
-
+// Props interface for the FormField component
+// Generic type T extends FieldValues for type safety with react-hook-form
 interface FormFieldProps<T extends FieldValues> {
   id: string;
   type?: string;
@@ -19,6 +19,8 @@ interface FormFieldProps<T extends FieldValues> {
   errors: FieldErrors;
 }
 
+// Reusable form field component with validation support
+// Integrates with react-hook-form for form state management
 const FormField = <T extends FieldValues>({
   id,
   type,
@@ -29,11 +31,15 @@ const FormField = <T extends FieldValues>({
   register,
   errors,
 }: FormFieldProps<T>) => {
+  // Extract error message for the current field
   const message = errors[id] && (errors[id]?.message as string);
 
   return (
     <div>
+      {/* Optional label for the input field */}
       {label && <span className="block text-sm">{label}</span>}
+
+      {/* Input field with react-hook-form registration */}
       <input
         id={id}
         type={type}
@@ -46,6 +52,8 @@ const FormField = <T extends FieldValues>({
           inputClassName
         )}
       />
+
+      {/* Error message display */}
       {message && <span className="text-sm text-rose-400">{message}</span>}
     </div>
   );
