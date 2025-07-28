@@ -3,98 +3,133 @@
 ## 📁 Root Level Files
 
 ### Configuration Files
-- **`next.config.ts`** - Next.js configuration file that defines build settings, redirects, and other app-wide configurations
-- **`tailwind.config.ts`** - Tailwind CSS configuration file that defines custom colors, fonts, and styling rules
-- **`tsconfig.json`** - TypeScript configuration file that defines compiler options and path mappings
-- **`eslint.config.mjs`** - ESLint configuration for code linting and formatting rules
-- **`components.json`** - Configuration file for UI components (likely for shadcn/ui components)
-- **`postcss.config.mjs`** - PostCSS configuration for CSS processing and Tailwind CSS
+- **`next.config.ts`** - Next.js configuration file that defines build settings, redirects, and other app-wide configurations. Contains TypeScript support and custom configuration options.
+- **`tailwind.config.ts`** - Tailwind CSS configuration file that defines custom colors, fonts, styling rules, dark mode settings, content paths for purging, and plugin configurations.
+- **`tsconfig.json`** - TypeScript configuration file that defines compiler options and path mappings for type safety.
+- **`eslint.config.mjs`** - ESLint configuration for code linting and formatting rules.
+- **`components.json`** - Configuration file for UI components (likely for shadcn/ui components).
+- **`postcss.config.mjs`** - PostCSS configuration for CSS processing and Tailwind CSS.
 
 ### Authentication & Routing
-- **`auth.ts`** - Main NextAuth.js configuration file that exports authentication handlers, auth function, and sign-in/out functions
-- **`auth.config.ts`** - NextAuth.js configuration with providers (Google, GitHub), callbacks, and session settings
-- **`middleware.ts`** - Next.js middleware function that runs between requests and responses for authentication checks and route protection
-- **`route.ts`** - Route constants file defining redirect paths for authentication flows
+- **`auth.ts`** - Main NextAuth.js configuration file that exports authentication handlers, auth function, and sign-in/out functions. Includes Prisma adapter, JWT session strategy, and custom events.
+- **`auth.config.ts`** - NextAuth.js configuration with providers (Google, GitHub), callbacks, session settings, and credentials provider with password verification.
+- **`middleware.ts`** - Next.js middleware function that runs between requests and responses for authentication checks, route protection, and redirects for authenticated/unauthenticated users.
+- **`route.ts`** - Route constants file defining redirect paths, public routes, auth routes, and API authentication prefix for the application.
 
 ## 📁 App Directory (Next.js App Router)
 
 ### Layout & Pages
-- **`app/layout.tsx`** - Root layout component that wraps all pages, provides theme support, navigation, and session provider
-- **`app/page.tsx`** - Home page component displaying the main landing page content
+- **`app/layout.tsx`** - Root layout component that wraps all pages, provides theme support, navigation, session provider, and basic page structure with Poppins font configuration.
+- **`app/page.tsx`** - Home page component displaying the main landing page content with welcome message and foundation for blog features.
 
 ### Authentication Pages
-- **`app/(auth)/login/page.tsx`** - Login page component with the login form
-- **`app/(auth)/register/page.tsx`** - Registration page component with the sign-up form
+- **`app/(auth)/login/page.tsx`** - Login page component with the login form wrapped in a Container for consistent layout and user authentication flow.
+- **`app/(auth)/register/page.tsx`** - Registration page component with the sign-up form wrapped in a Container for new user account creation.
+- **`app/(auth)/email-verification/page.tsx`** - Email verification page component that handles email verification tokens and user account verification.
 
 ### User Pages
-- **`app/user/[id]/page.tsx`** - Dynamic user profile page that displays user information based on the ID parameter
+- **`app/user/[id]/page.tsx`** - Dynamic user profile page that displays user information based on the ID parameter with foundation for user dashboard functionality.
+
+### API Routes
+- **`app/api/auth/[...nextauth]/route.ts`** - NextAuth.js API route handlers for authentication endpoints including sign in/out requests, OAuth provider callbacks, session management, and token refresh.
 
 ## 📁 Components Directory
 
 ### Authentication Components
-- **`components/auth/LoginForm.tsx`** - Reusable login form component with validation using react-hook-form and Zod
-- **`components/auth/RegisterForm.tsx`** - Reusable registration form component with validation and error handling
-- **`components/auth/SocialAuth.tsx`** - Social authentication component for Google, GitHub, etc.
+- **`components/auth/LoginForm.tsx`** - Reusable login form component with validation using react-hook-form and Zod, error handling, social authentication integration, and automatic redirects.
+- **`components/auth/RegisterForm.tsx`** - Reusable registration form component with validation, error handling, password confirmation, and social authentication options.
+- **`components/auth/SocialAuth.tsx`** - Social authentication component for Google, GitHub, and other OAuth providers with consistent styling and error handling.
+- **`components/auth/EmailVerificationClient.tsx`** - Client-side email verification component that handles verification tokens, success/error states, and user feedback.
 
 ### Common Components
-- **`components/common/Button.tsx`** - Reusable button component with different variants and states
-- **`components/common/FormField.tsx`** - Reusable form input component with validation and error display
-- **`components/common/Heading.tsx`** - Reusable heading component with different sizes and styles
-- **`components/common/Alert.tsx`** - Alert component for displaying success, error, and info messages
+- **`components/common/Button.tsx`** - Reusable button component with different variants, states, loading indicators, and consistent styling across the application.
+- **`components/common/FormField.tsx`** - Reusable form input component with validation, error display, accessibility features, and consistent styling.
+- **`components/common/Heading.tsx`** - Reusable heading component with different sizes, styles, and typography consistency.
+- **`components/common/Alert.tsx`** - Alert component for displaying success, error, warning, and info messages with appropriate styling and icons.
 
 ### Layout Components
-- **`components/layout/Container.tsx`** - Container component for consistent layout spacing and responsive design
-- **`components/layout/NavBar.tsx`** - Navigation bar component with logo, search, theme toggle, and user menu
-- **`components/layout/Notifications.tsx`** - Notifications component for displaying user notifications
-- **`components/layout/SearchInput.tsx`** - Search input component for site-wide search functionality
-- **`components/layout/ThemeToggle.tsx`** - Theme toggle component for switching between light/dark modes
-- **`components/layout/UserButton.tsx`** - User button component showing user avatar and dropdown menu
+- **`components/layout/Container.tsx`** - Container component for consistent layout spacing, responsive design, and content width management.
+- **`components/layout/NavBar.tsx`** - Navigation bar component with logo, search functionality, theme toggle, user menu, and responsive design.
+- **`components/layout/Notifications.tsx`** - Notifications component for displaying user notifications with real-time updates and management.
+- **`components/layout/SearchInput.tsx`** - Search input component for site-wide search functionality with autocomplete and filtering.
+- **`components/layout/ThemeToggle.tsx`** - Theme toggle component for switching between light/dark modes with smooth transitions and persistent settings.
+- **`components/layout/UserButton.tsx`** - User button component showing user avatar, dropdown menu, profile options, and authentication status.
 
 ### UI Components
-- **`components/ui/avatar.tsx`** - Avatar component for displaying user profile pictures
-- **`components/ui/dropdown-menu.tsx`** - Dropdown menu component for user actions and navigation
-- **`components/ui/input.tsx`** - Base input component used by FormField
+- **`components/ui/avatar.tsx`** - Avatar component for displaying user profile pictures with fallback images and different sizes.
+- **`components/ui/dropdown-menu.tsx`** - Dropdown menu component for user actions, navigation, and contextual menus with accessibility features.
+- **`components/ui/input.tsx`** - Base input component used by FormField with consistent styling, validation states, and accessibility support.
 
 ## 📁 Actions Directory (Server Actions)
 
 ### Authentication Actions
-- **`actions/auth/login.ts`** - Server action for handling user login with credential validation
-- **`actions/auth/register.ts`** - Server action for handling user registration with password hashing
+- **`actions/auth/login.ts`** - Server action for handling user login with credential validation, email verification handling, error management, and NextAuth.js integration.
+- **`actions/auth/register.ts`** - Server action for handling user registration with password hashing, email verification token creation, duplicate email checking, and database operations.
+- **`actions/auth/email-verification.ts`** - Server action for handling email verification with token validation, expiration checking, user verification, and database updates.
 
 ## 📁 Schemas Directory (Validation)
 
 ### Authentication Schemas
-- **`schemas/LoginSchema.ts`** - Zod schema for login form validation (email, password)
-- **`schemas/RegisterSchema.ts`** - Zod schema for registration form validation (name, email, password, confirmPassword)
+- **`schemas/LoginSchema.ts`** - Zod schema for login form validation with email format checking, password length requirements, and TypeScript type generation.
+- **`schemas/RegisterSchema.ts`** - Zod schema for registration form validation with name length constraints, email validation, password requirements, and password confirmation matching.
 
 ## 📁 Lib Directory (Utilities)
 
 ### Database & Utilities
-- **`lib/db.ts`** - Prisma database client configuration and connection setup
-- **`lib/user.ts`** - User-related utility functions for database operations
-- **`lib/utils.ts`** - General utility functions including class name merging with clsx and tailwind-merge
+- **`lib/db.ts`** - Prisma database client configuration with global type declarations, singleton pattern for development, and connection management.
+- **`lib/user.ts`** - User-related utility functions for database operations including user retrieval by email and error handling.
+- **`lib/utils.ts`** - General utility functions including class name merging with clsx and tailwind-merge for CSS optimization and conflict resolution.
+- **`lib/emailVerification.ts`** - Email verification utilities for creating tokens, sending verification emails, and managing the verification process.
 
 ## 📁 Prisma Directory
 
 ### Database Schema
-- **`prisma/schema.prisma`** - Prisma database schema defining User model with authentication fields
+- **`prisma/schema.prisma`** - Prisma database schema defining User and VerificationToken models with authentication fields, relationships, and database configuration.
 
-## 📁 API Directory
+## 📁 Public Directory
 
-### Authentication API
-- **`app/api/auth/[...nextauth]/route.ts`** - NextAuth.js API route handlers for authentication endpoints
+### Static Assets
+- **`public/logo.svg`** - Application logo and branding assets for consistent visual identity.
 
 ---
 
 ## Architecture Overview
 
 This structure follows Next.js 13+ App Router conventions with:
-- **Server Actions** for backend logic
-- **TypeScript** for type safety
-- **Component-based architecture** for reusability
-- **Authentication** with NextAuth.js
-- **Database** with Prisma ORM
-- **Styling** with Tailwind CSS
-- **Form handling** with react-hook-form and Zod validation
 
-The application is a modern web blog platform with user authentication, theme switching, and responsive design. 
+### Core Technologies
+- **Next.js 13+** with App Router for modern React development
+- **TypeScript** for type safety and better developer experience
+- **NextAuth.js** for comprehensive authentication system
+- **Prisma ORM** for type-safe database operations
+- **Tailwind CSS** for utility-first styling
+- **Zod** for runtime validation and type inference
+- **React Hook Form** for efficient form handling
+
+### Key Features
+- **Server Actions** for backend logic without API routes
+- **Component-based architecture** for reusability and maintainability
+- **Authentication** with multiple providers (Google, GitHub, Credentials)
+- **Email verification** system for account security
+- **Theme switching** with dark/light mode support
+- **Responsive design** for all device sizes
+- **Form validation** with real-time feedback
+- **Error handling** with user-friendly messages
+
+### Security Features
+- **Password hashing** with bcrypt
+- **JWT sessions** for secure authentication
+- **Email verification** for account validation
+- **Route protection** with middleware
+- **Input validation** with Zod schemas
+- **CSRF protection** with NextAuth.js
+
+### Development Features
+- **Hot reloading** for fast development
+- **Type safety** throughout the application
+- **ESLint** for code quality
+- **Prettier** for code formatting
+- **Component documentation** with comprehensive comments
+- **Modular architecture** for scalability
+
+The application is a modern web blog platform with comprehensive user authentication, theme switching, responsive design, and a solid foundation for building additional features like blog posts, user profiles, and content management. 
