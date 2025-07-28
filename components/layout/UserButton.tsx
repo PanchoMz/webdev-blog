@@ -1,3 +1,5 @@
+"use client";
+import { useSession } from "next-auth/react";
 import {
   FileIcon,
   LogOutIcon,
@@ -15,15 +17,22 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { FaRegBookmark } from "react-icons/fa";
+import { signOut } from "next-auth/react";
 
 const UserButton = () => {
+  const { data: session } = useSession();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
-          <AvatarImage src="" />
+          <AvatarImage src={session?.user?.image || ""} />
           <AvatarFallback className="border-2 border-gray-200 dark:border-gray-700">
-            <UserIcon size={20} />
+            {session?.user?.name ? (
+              session.user.name.charAt(0).toUpperCase()
+            ) : (
+              <UserIcon size={20} />
+            )}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
@@ -53,8 +62,8 @@ const UserButton = () => {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <button className="flex items-center gap-2">
-            <LogOutIcon size={18} /> Logout
+          <button className="flex items-center gap-2" onClick={() => signOut()}>
+            <LogOutIcon size={18} /> Sign Out
           </button>
         </DropdownMenuItem>
       </DropdownMenuContent>

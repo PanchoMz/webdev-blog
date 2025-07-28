@@ -4,6 +4,8 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "next-themes";
 import NavBar from "@/components/layout/NavBar";
+import { auth } from "@/auth";
+import { SessionProvider } from "next-auth/react";
 
 // Configure Poppins font with specific weights for the application
 const poppins = Poppins({
@@ -23,31 +25,35 @@ export const metadata: Metadata = {
 
 // Root layout component that wraps all pages
 // Provides theme support, navigation, and basic page structure
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={cn(
-          "antialiased flex flex-col min-h-screen px-2 ",
-          poppins.variable
-        )}
-      >
-        {/* Theme provider enables dark/light mode switching */}
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
+    <SessionProvider session={session}>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={cn(
+            "antialiased flex flex-col min-h-screen px-2 ",
+            poppins.variable
+          )}
         >
-          <NavBar />
-          <main className="flex-grow pt-16">{children}</main>
-          <footer>...</footer>
-        </ThemeProvider>
-      </body>
-    </html>
+          {/* Theme provider enables dark/light mode switching */}
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <NavBar />
+            <main className="flex-grow pt-16">{children}</main>
+            <footer>...</footer>
+          </ThemeProvider>
+        </body>
+      </html>
+    </SessionProvider>
   );
 }

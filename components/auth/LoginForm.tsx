@@ -7,9 +7,18 @@ import FormField from "../common/FormField";
 import Button from "../common/Button";
 import Heading from "../common/Heading";
 import SocialAuth from "./SocialAuth";
+import { useTransition, useState } from "react";
+import { Login } from "@/actions/auth/login";
+import Alert from "../common/Alert";
+import { useRouter } from "next/navigation";
+import { LOGIN_REDIRECT } from "@/route";
+import { getSession } from "next-auth/react";
 
 // Login form component with form validation using Zod schema
 const LoginForm = () => {
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | undefined>("");
+  const router = useRouter();
   // Form setup with react-hook-form and Zod validation
   const {
     register,
@@ -21,7 +30,19 @@ const LoginForm = () => {
 
   // Handle form submission
   const onSubmit: SubmitHandler<LoginSchemaType> = (data) => {
-    console.log("data>>>", data);
+    setError("");
+    startTransition(async () => {
+      Login(data).then(async (res) => {
+        if (res?.error) {
+          setError(res.error);
+        }
+        if (!res?.error) {
+          // Force session refresh after successful login
+          await getSession();
+          router.push(LOGIN_REDIRECT);
+        }
+      });
+    });
   };
 
   return (
@@ -37,6 +58,7 @@ const LoginForm = () => {
         placeholder="Email"
         register={register}
         errors={errors}
+        disabled={isPending}
       />
 
       {/* Password input field with validation */}
@@ -46,9 +68,14 @@ const LoginForm = () => {
         register={register}
         errors={errors}
         type="password"
+        disabled={isPending}
       />
-
-      <Button label="Login" type="submit" />
+      {error && <Alert error message={error} />}
+      <Button
+        label={isPending ? "Submitting..." : "Login"}
+        type="submit"
+        disabled={isPending}
+      />
 
       {/* Divider for social authentication */}
       <div className="flex justify-center my-2">Or</div>
