@@ -1,3 +1,4 @@
+// Home page component - currently displays a simple welcome message
 export default function Home() {
   return (
     <div>
@@ -5,4 +6,3 @@ export default function Home() {
     </div>
   );
 }
-

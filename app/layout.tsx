@@ -4,13 +4,17 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "next-themes";
 import NavBar from "@/components/layout/NavBar";
+import { auth } from "@/auth";
+import { SessionProvider } from "next-auth/react";
 
+// Configure Poppins font with specific weights for the application
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
+// Metadata configuration for SEO and browser display
 export const metadata: Metadata = {
   title: "WebDevBlog",
   description: "Your favorite blog for web development",
@@ -19,30 +23,37 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+// Root layout component that wraps all pages
+// Provides theme support, navigation, and basic page structure
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={cn(
-          "antialiased flex flex-col min-h-screen px-2 ",
-          poppins.variable
-        )}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
+    <SessionProvider session={session}>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={cn(
+            "antialiased flex flex-col min-h-screen px-2 ",
+            poppins.variable
+          )}
         >
-          <NavBar />
-          <main className="flex-grow">{children}</main>
-          <footer>...</footer>
-        </ThemeProvider>
-      </body>
-    </html>
+          {/* Theme provider enables dark/light mode switching */}
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <NavBar />
+            <main className="flex-grow pt-16">{children}</main>
+            <footer>...</footer>
+          </ThemeProvider>
+        </body>
+      </html>
+    </SessionProvider>
   );
 }
